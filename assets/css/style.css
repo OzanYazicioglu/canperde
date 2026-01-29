@@ -1,0 +1,1076 @@
+/* ================================
+   Global Reset & Base Styles
+================================ */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #1f2933;
+    background-color: #f7fafc;
+    line-height: 1.5;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    /* Subtle premium feel on hover/focus */
+    transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+}
+
+button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    /* Shared smooth interaction for all buttons */
+    transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+}
+
+/* ================================
+   Layout
+================================ */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem 3rem;
+}
+
+/* ================================
+   Header & Navigation
+================================ */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.menu-logo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+}
+
+/* Hamburger toggle button (injected via JS) */
+.nav-toggle {
+    display: none;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    margin-left: 0.75rem;
+    border-radius: 999px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    background: #ffffff;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+    transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.nav-toggle span,
+.nav-toggle::before,
+.nav-toggle::after {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 2px;
+    border-radius: 999px;
+    background: #111827;
+    transition: transform 0.2s ease, opacity 0.2s ease, top 0.2s ease, bottom 0.2s ease;
+}
+
+.nav-toggle span {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.nav-toggle::before {
+    top: 13px;
+}
+
+.nav-toggle::after {
+    bottom: 13px;
+}
+
+.header.nav-open .nav-toggle {
+    background: #111827;
+}
+
+.header.nav-open .nav-toggle span,
+.header.nav-open .nav-toggle::before,
+.header.nav-open .nav-toggle::after {
+    background: #f9fafb;
+}
+
+.header.nav-open .nav-toggle span {
+    opacity: 0;
+}
+
+.header.nav-open .nav-toggle::before {
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.header.nav-open .nav-toggle::after {
+    bottom: auto;
+    top: 50%;
+    transform: translateY(-50%) rotate(-45deg);
+}
+
+.logo img {
+    height: 54px;
+    width: auto;
+    object-fit: contain;
+}
+
+.menu {
+    display: flex;
+    gap: 1.5rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.header.nav-open .menu a {
+    color: #111827;
+}
+
+.menu a {
+    position: relative;
+    padding-bottom: 0.25rem;
+    color: #111827;
+    transition: color 0.2s ease;
+}
+
+.menu a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: #6b7280;
+    transition: width 0.25s ease;
+}
+
+.menu a:hover {
+    color: #6b7280;
+}
+
+.menu a:hover::after {
+    width: 100%;
+}
+
+/* ================================
+   Hero & Slider
+================================ */
+.hero {
+    position: relative;
+    margin-top: 1.25rem;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+    /* Desktop: let hero occupy most of the viewport height */
+    min-height: 75vh;
+    /* Ensure anchor scrolling doesn't hide content behind sticky header */
+    scroll-margin-top: 90px;
+}
+
+.slider {
+    position: relative;
+    width: 100%;
+    /* Use viewport height so slides scale with screen size */
+    min-height: 75vh;
+    height: 100%;
+}
+
+.slider img {
+    /* Fallback: show images normally when JS is disabled or fails */
+    position: relative;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    opacity: 1;
+}
+
+/* Enhanced slider state (only applied when JS adds .is-enhanced) */
+.slider.is-enhanced {
+    position: relative;
+    overflow: hidden;
+}
+
+.slider.is-enhanced img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.75s ease-in-out;
+    will-change: opacity;
+}
+
+/* Active slide (support both .is-active from JS and a generic .active class) */
+.slider.is-enhanced img.is-active,
+.slider.is-enhanced img.active {
+    opacity: 1;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(15, 23, 42, 0.75) 0%, rgba(15, 23, 42, 0.2) 60%, transparent 100%);
+    pointer-events: none;
+}
+
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 420px;
+    z-index: 2;
+    padding: 1.35rem 1.6rem;
+    border-radius: 0.9rem;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.4);
+    background: rgba(73, 72, 72, 0.216);
+    color: #f9fafb;
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(8px);
+    text-align: center;
+    line-height: 1.6;
+}
+
+.modal h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.modal p {
+    font-size: 1.02rem;
+}
+
+/* ================================
+   Categories / Products
+================================ */
+.categories {
+    margin-top: 2.5rem;
+}
+
+.categories > h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.card {
+    background: #ffffff;
+    border-radius: 0.9rem;
+    overflow: hidden;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, translate 0.2s ease;
+}
+
+.card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+.card h4 {
+    padding: 0.9rem 1rem 1.1rem;
+    font-size: 1rem;
+    text-align: center;
+    color: #111827;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16);
+}
+
+/* ================================
+   Neden Biz
+================================ */
+.neden-biz {
+    margin-top: 3rem;
+    padding: 2.25rem 1.5rem;
+    border-radius: 1.25rem;
+    background: linear-gradient(135deg, #4b5563, #1f2937);
+    color: #f9fafb;
+    box-shadow: 0 18px 40px rgba(31, 41, 55, 0.35);
+    /* Center the block within the page for better readability */
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    scroll-margin-top: 90px;
+}
+
+.neden-biz .title {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.neden-biz .title h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.neden-biz .text {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem 2rem;
+    font-weight: 500;
+}
+
+.neden-biz .text p::before {
+    content: "✓";
+    display: inline-block;
+    width: 1.2em;
+    text-align: center;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.neden-biz strong {
+    padding-top: 25px;
+}
+
+/* ================================
+   Blog Section
+================================ */
+.blog {
+    margin-top: 3rem;
+    scroll-margin-top: 90px;
+}
+
+.blog > h2 {
+    text-align: center;
+    margin-bottom: 2.25rem;
+    font-size: 1.6rem;
+    letter-spacing: 0.08em;
+}
+
+.blog-carousel {
+    position: relative;
+    overflow: hidden;
+}
+
+.blog-track {
+    display: flex;
+    align-items: stretch;
+    will-change: transform;
+    transition: transform 0.6s ease-in-out;
+    /* Default visible card count (desktop), can be overridden via CSS variable from JS */
+    --blog-visible: 3;
+    gap: 2rem;
+    padding-block: 0.25rem;
+}
+
+.blog-card {
+    flex: 0 0 calc(100% / var(--blog-visible));
+    background: #ffffff;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+    display: flex;
+    flex-direction: column;
+    transform-origin: center;
+    min-height: 340px;
+}
+
+.blog-card img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+}
+
+.blog-card-content {
+    padding: 1.1rem 1.35rem 1.35rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    height: 100%;
+}
+
+.blog-card-content h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #111827;
+    /* Long Turkish titles should wrap nicely on small screens */
+    overflow-wrap: anywhere;
+    word-break: normal;
+    hyphens: auto;
+}
+
+.blog-card-content p {
+    font-size: 0.95rem;
+    color: #4b5563;
+    line-height: 1.55;
+    /* Keep text to roughly 2–3 lines for a clean, balanced layout */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.blog-read-more {
+    margin-top: auto;
+    align-self: flex-start;
+    padding: 0.4rem 1.1rem;
+    border-radius: 999px;
+    border: 1px solid #4b5563;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #ffffff;
+    background-color: #374151;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.25);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.blog-read-more:hover {
+    background-color: #1f2937;
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.35);
+}
+
+.blog-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
+}
+
+/* ================================
+   Blog Carousel (Mobile Scroll Snap)
+================================ */
+@media (max-width: 768px) {
+    .blog {
+        /* Give the carousel a bit more breathing room on mobile */
+        margin-top: 2.5rem;
+    }
+
+    .blog-carousel {
+        /* Switch from "transform slider" to native horizontal scrolling */
+        overflow-x: auto;
+        overflow-y: visible;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+
+        /* Let the scroller reach the viewport edges, then add a gutter */
+        margin-inline: -1rem;
+        padding-inline: 1rem;
+
+        /* Hide scrollbars where possible (still accessible) */
+        scrollbar-width: none;
+    }
+
+    .blog-carousel::-webkit-scrollbar {
+        display: none;
+    }
+
+    .blog-track {
+        /* Disable transform animation in mobile scroll mode */
+        transition: none;
+        transform: none !important;
+        will-change: auto;
+
+        --blog-visible: 1;
+        --blog-card-width: 88vw;
+        gap: 1rem;
+        padding-block: 0.25rem;
+
+        /* Create symmetric space so first/last card can center */
+        padding-inline: 0;
+    }
+
+    .blog-track::before,
+    .blog-track::after {
+        content: "";
+        flex: 0 0 calc((100vw - var(--blog-card-width)) / 2);
+    }
+
+    .blog-card {
+        flex: 0 0 var(--blog-card-width);
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
+        min-height: 360px;
+    }
+
+    .blog-card img {
+        height: 200px;
+    }
+
+    .blog-card-content {
+        padding: 1rem 1.1rem 1.15rem;
+    }
+
+    .blog-card-content h3 {
+        line-height: 1.25;
+    }
+}
+
+/* ================================
+   Contact Section
+================================ */
+.contact {
+    margin-top: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    scroll-margin-top: 90px;
+}
+
+.contact > h3 {
+    text-align: center;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.maps {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.maps iframe {
+    width: 100%;
+    max-width: 100%;
+    height: 300px;
+    border: 0;
+    border-radius: 1rem;
+    box-shadow: 0 14px 32px rgba(15, 23, 42, 0.25);
+}
+
+.phone {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.phone button {
+    width: 64px;
+    height: 64px;
+    border-radius: 999px;
+    background-color: #374151;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.18);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.2s ease;
+}
+
+.phone button img {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+}
+
+.phone button:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.22);
+    background-color: #1f2937;
+}
+
+.phone button:hover img {
+    filter: brightness(0) invert(1);
+}
+
+/* ================================
+   Contact & Social Buttons (Brand Colors)
+================================ */
+
+/* WhatsApp button – acts purely as a transparent clickable wrapper
+   around the original WhatsApp.png asset (no background, border, or shadow). */
+.whatsapp-button,
+.phone button.whatsapp-button,
+.phone button:has(img[src*="WhatsApp.png"]),
+.phone button:has(img[src*="whatsapp.png"]) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 0;
+    padding-bottom: 18px;
+    margin: 0;
+    width: 82px;
+    height: 82px;
+    border-radius: 999px;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.whatsapp-button img,
+.whatsapp-button svg,
+.phone button.whatsapp-button img,
+.phone button.whatsapp-button svg,
+.phone button:has(img[src*="WhatsApp.png"]) img,
+.phone button:has(img[src*="whatsapp.png"]) img {
+    /* Match contact icon sizing so all three (search/phone, WhatsApp,
+       Instagram) appear visually consistent inside their 64px buttons */
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    display: block;
+    filter: none !important; /* keep original WhatsApp icon colors */
+}
+
+/* Instagram button – official gradient background */
+.instagram-button,
+.phone button.instagram-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.55rem 1.1rem;
+    border-radius: 999px;
+    background-image: linear-gradient(45deg,
+        #f09433 0%,
+        #e6683c 25%,
+        #dc2743 50%,
+        #cc2366 75%,
+        #bc1888 100%);
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 0.9rem;
+    box-shadow: 0 8px 22px rgba(204, 35, 102, 0.4);
+}
+
+.instagram-button:hover,
+.phone button.instagram-button:hover {
+    filter: brightness(0.95);
+    color: #ffffff;
+    box-shadow: 0 10px 26px rgba(204, 35, 102, 0.5);
+}
+
+.instagram-button img,
+.instagram-button svg,
+.phone button.instagram-button img,
+.phone button.instagram-button svg {
+    /* Align Instagram icon size with other contact icons */
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    display: block;
+    filter: brightness(0) invert(1); /* keep icon white */
+}
+
+/* ================================
+   Forced Brand Color Overrides
+   (ensure brand colors beat generic gray buttons)
+================================ */
+
+/* Instagram button – force official gradient based on icon */
+.phone button:has(img[src*="Instagram.png"]),
+.phone button:has(img[src*="instagram.png"]) {
+    background: linear-gradient(
+        45deg,
+        #f09433 0%,
+        #e6683c 25%,
+        #dc2743 50%,
+        #cc2366 75%,
+        #bc1888 100%
+    ) !important;
+    color: #ffffff !important;
+}
+
+.phone button:has(img[src*="Instagram.png"]) img,
+.phone button:has(img[src*="instagram.png"]) img {
+    filter: brightness(0) invert(1) !important; /* force white icon */
+}
+
+/* Ensure contact icons (phone/search, WhatsApp, Instagram) are exactly the same size */
+.phone button img[src*="phone.png"],
+.phone button img[src*="WhatsApp.png"],
+.phone button img[src*="Instagram.png"] {
+    width:30px;
+    height: 30px;
+}
+
+/* ================================
+   Footer
+================================ */
+footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(15, 23, 42, 0.08);
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    text-align: center;
+}
+
+.footer-text {
+    width: 100%;
+}
+
+.footer-search {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 300px;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    background: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.1);
+    border-radius: 999px;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.footer-search:focus-within {
+    border-color: #6b7280;
+    box-shadow: 0 6px 16px rgba(107, 114, 128, 0.2);
+}
+
+.footer-search input[type="search"] {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 0.9rem;
+    color: #111827;
+    padding: 0;
+}
+
+.footer-search input[type="search"]::placeholder {
+    color: #9ca3af;
+}
+
+/* Footer search button – subtle, secondary styling */
+.footer-search button,
+.footer-search .footer-search-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.3rem 0.9rem;
+    border-radius: 999px;
+    background-color: #e5e7eb; /* subtle light gray */
+    color: #111827;            /* readable dark text */
+    font-size: 0.8rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.footer-search button:hover,
+.footer-search .footer-search-button:hover {
+    background-color: #d1d5db;
+}
+
+
+.footer-moonsoft {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.moonsoft-call-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #374151;
+    border-radius: 999px;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.12);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.2s ease;
+    font-weight: 500;
+    color: #ffffff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.moonsoft-call-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
+    background-color: #1f2937;
+    color: #ffffff;
+}
+
+.moonsoft-call-btn img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+}
+
+.moonsoft-call-btn:hover img {
+    filter: brightness(0) invert(1);
+}
+
+.moonsoft-logo {
+    background-color: #1f2937;
+    padding: 12px 32px;
+    border-radius: 0.5rem;
+    display: inline-block;
+}
+
+.moonsoft-logo img {
+    width: 150px;
+    height: 60px;
+    object-fit: contain;
+    display: block;
+}
+
+/* ================================
+   Responsive
+================================ */
+@media (max-width: 900px) {
+    .nav-toggle {
+        display: inline-flex;
+    }
+
+    .menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        margin-top: 0.5rem;
+        padding: 0.75rem 1rem;
+        border-radius: 0.9rem;
+        background: #ffffff;
+        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
+        flex-direction: column;
+        gap: 0.75rem;
+        min-width: 220px;
+        font-size: 0.9rem;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(4px);
+        pointer-events: none;
+        z-index: 30;
+    }
+
+    .header.nav-open .menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    .hero {
+        border-radius: 1rem;
+        /* Tablet & small laptop: slightly shorter than full hero on desktop */
+        min-height: 60vh;
+    }
+
+    .slider {
+        min-height: 60vh;
+    }
+
+    .modal {
+        width: 90%;
+        max-width: 400px;
+    }
+
+    .neden-biz {
+        padding-inline: 1.25rem;
+        max-width: 100%;
+    }
+
+    .blog-track {
+        --blog-visible: 1;
+    }
+
+    .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .container {
+        padding-inline: 1rem;
+    }
+
+    .logo img {
+        height: 46px;
+    }
+
+    .hero {
+        margin-top: 1rem;
+        /* Mobile: shorter, but still visually strong */
+        min-height: 55vh;
+    }
+
+    .slider {
+        min-height: 55vh;
+    }
+
+    .modal h3 {
+        font-size: 1.15rem;
+    }
+
+    .maps {
+        max-width: 100%;
+    }
+
+    .maps iframe {
+        height: 250px;
+    }
+
+    .footer-search {
+        max-width: 100%;
+    }
+
+    .moonsoft-logo img {
+        width: 120px;
+        height: 48px;
+    }
+
+}
+
+@media (max-width: 480px) {
+    .cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ================================
+   Blog Modal
+================================ */
+.blog-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    z-index: 40;
+}
+
+.blog-modal-overlay.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.blog-modal-dialog {
+    width: 100%;
+    max-width: 640px;
+    background: rgba(249, 250, 251, 0.98);
+    border-radius: 1.25rem;
+    box-shadow: 0 30px 80px rgba(15, 23, 42, 0.45);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.blog-modal-image-wrap {
+    width: 100%;
+    max-height: 320px;
+    overflow: hidden;
+}
+
+.blog-modal-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.blog-modal-content {
+    padding: 1.5rem 1.75rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.blog-modal-content h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+.blog-modal-body {
+    max-height: 260px;
+    overflow-y: auto;
+    margin-top: 0.25rem;
+}
+
+.blog-modal-body p {
+    font-size: 0.98rem;
+    color: #4b5563;
+    line-height: 1.7;
+}
+
+.blog-modal-close {
+    position: absolute;
+    top: 0.9rem;
+    right: 0.9rem;
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #111827;
+}
+
+.blog-modal-close:hover {
+    background: rgba(15, 23, 42, 0.12);
+    transform: translateY(-1px);
+}
+
+body.blog-modal-open {
+    overflow: hidden;
+}
+
+/* ================================
+   Accessibility / Reduced Motion
+================================ */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        scroll-behavior: auto !important;
+        transition: none !important;
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}
+
