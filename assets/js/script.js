@@ -65,14 +65,14 @@ function initContactButtons() {
     if (phoneBtn) {
         phoneBtn.addEventListener("click", () => {
             // Replace with your real phone number
-            window.location.href = "tel:+903123322626";
+            window.location.href = "tel:+905535242773";
         });
     }
 
     if (whatsappBtn) {
         whatsappBtn.addEventListener("click", () => {
             // Replace with your real WhatsApp number if needed
-            const phone = "903123322626";
+            const phone = "905535242773";
             const message = encodeURIComponent("Merhaba, Can Perde & Mefruşat için bilgi almak istiyorum.");
             window.open(`https://wa.me/${phone}?text=${message}`, "_blank", "noopener");
         });
@@ -81,7 +81,8 @@ function initContactButtons() {
     if (instagramBtn) {
         instagramBtn.addEventListener("click", () => {
             // Replace with your real Instagram handle
-            window.open("https://www.instagram.com", "_blank", "noopener");
+            window.open("https://www.instagram.com/can.mefrusatkeremunal/", "_blank", "noopener");
+
         });
     }
 }
