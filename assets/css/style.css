@@ -743,6 +743,17 @@ footer {
     width: 100%;
 }
 
+.service-areas{
+  max-width: 1100px;
+  margin: 12px auto 0;
+  padding: 0 20px 20px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #555;
+  text-align: center;
+}
+
+
 .footer-search {
     display: flex;
     align-items: center;
