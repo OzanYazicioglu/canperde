@@ -850,15 +850,14 @@ footer {
 }
 
 .moonsoft-logo {
-    background-color: #1f2937;
     padding: 12px 32px;
     border-radius: 0.5rem;
     display: inline-block;
 }
 
 .moonsoft-logo img {
-    width: 150px;
-    height: 60px;
+    width: 200px;
+    height: 90px;
     object-fit: contain;
     display: block;
 }
