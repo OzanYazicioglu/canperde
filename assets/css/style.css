@@ -962,8 +962,8 @@ footer {
     }
 
     .moonsoft-logo img {
-        width: 120px;
-        height: 48px;
+        width: min(260px, 80vw);
+        height: auto;
     }
 
 }
