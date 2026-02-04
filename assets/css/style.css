@@ -1073,6 +1073,31 @@ body.blog-modal-open {
     overflow: hidden;
 }
 
+@media (max-width: 360px) {
+  .moonsoft-logo img {
+    width: 92vw;
+    max-width: 300px;
+    height: auto;
+  }
+}
+
+@media (min-width: 361px) and (max-width: 480px) {
+  .moonsoft-logo img {
+    width: 85vw;
+    max-width: 320px;
+    height: auto;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 640px) {
+  .moonsoft-logo img {
+    width: 70vw;
+    max-width: 340px;
+    height: auto;
+  }
+}
+
+
 /* ================================
    Accessibility / Reduced Motion
 ================================ */
